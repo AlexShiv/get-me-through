@@ -297,7 +297,10 @@ $(document).ready(
         /*
             If the FACE authentication process completed successfully
         */
+        console.log("Log before auth")
         socket.on('auth success', function (obj) {
+            console.log("Log in auth")
+
             var template = $('#person-details-template').html();
             var departureTime = 'Nil';
             if (obj.details.status === 'out') {
@@ -312,6 +315,7 @@ $(document).ready(
                 timeOut: departureTime,
                 allow: obj.details.allow
             });
+            console.log(html)
             var alias = obj.name.split(' ').join('-');
             var str = `[data-person=${alias}]`
             $(str).empty();

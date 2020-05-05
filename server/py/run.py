@@ -113,7 +113,7 @@ def main():
                 if "Unknown" in name:
                     other += 1
                     name += str(other)
-                face_names.append(name)
+                face_names.append(name.replace("known_people\\", ""))
             print(face_names, flush=True)
         process_this_frame = not process_this_frame
 
