@@ -1,7 +1,9 @@
-import glob, os
+import glob
+import os
 from pathlib import Path
-import numpy as np
+
 import face_recognition
+import numpy as np
 
 home = str(os.path.dirname(os.path.abspath(__file__))) + "/../../"
 print(home)

@@ -36,16 +36,24 @@ router.get('/clear', function (req, res) {
         path.join(__dirname, './../../data/people_file.csv')
     ];
     if (fs.existsSync(files[0])) {
+        var success = true
         files.forEach(file => {
             fs.unlink(file, function (err) {
                 if (err) {
                     console.log(err);
-                    res.send(400).send("Error occured,please try again!");
+                    success = false
+                    // res.send(400).send("Error occured,please try again!");
                 } else {
-                    res.send("Files cleared successfully");
+                    success = true
+                    // res.send("Files cleared successfully");
                 }
             })
         })
+        if (success) {
+            res.send("Files cleared successfully");
+        } else {
+            res.send(400).send("Error occured,please try again!");
+        }
     } else {
         res.status(404).send("No such files");
     }
