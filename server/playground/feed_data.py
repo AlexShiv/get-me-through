@@ -54,9 +54,8 @@ def main():
     known_encodings_save = np.array(known_encodings_new)
     people_save = np.array(people_new)
 
-    #Print the new people added for debugging( CAUTION: Disable for large cases)
+    # Print the new people added for debugging( CAUTION: Disable for large cases)
     # print("people = {} and {}".format(people_save, type(people_save)))
-
 
     # Save the face_encodings
     if known_encodings_file.is_file():
@@ -72,6 +71,7 @@ def main():
     else:
         np.savetxt(people_file_path, people_save, delimiter=',', fmt="%s")
 
-#start process
+
+# start process
 if __name__ == '__main__':
     main()

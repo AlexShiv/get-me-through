@@ -1,6 +1,6 @@
 const path = require('path');
-const { Visitor } = require(path.join(__dirname, './../models/visitor'));
-const { ObjectID } = require('mongodb');
+const {Visitor} = require(path.join(__dirname, './../models/visitor'));
+const {ObjectID} = require('mongodb');
 
 function getFormattedDate() {
     var date = new Date();
@@ -11,7 +11,7 @@ function getFormattedDate() {
 
 function verify(name, entryIn) {
     return new Promise((resolve, reject) => {
-        Visitor.findOne({ name: name })
+        Visitor.findOne({name: name})
             .then((visitor) => {
                 if (!visitor) {
                     return reject({
@@ -34,7 +34,7 @@ function verify(name, entryIn) {
                         if (visitor.allow === 'yes') {
                             // Has permission
                             console.log('has permission');
-                            Visitor.findOneAndUpdate({ name }, {
+                            Visitor.findOneAndUpdate({name}, {
                                 $set: {
                                     status: 'in',
                                     timeIn: getFormattedDate()
@@ -53,14 +53,14 @@ function verify(name, entryIn) {
                                         details
                                     });
                                 }).catch((e) => {
-                                    console.log('err');
-                                    console.log(e);
-                                    return reject({
-                                        name,
-                                        eventName: 'auth error',
-                                        msg: 'Some error occurred, please try again.'
-                                    })
-                                });
+                                console.log('err');
+                                console.log(e);
+                                return reject({
+                                    name,
+                                    eventName: 'auth error',
+                                    msg: 'Some error occurred, please try again.'
+                                })
+                            });
                         } else {
                             // Permission denied
                             return reject({
@@ -81,7 +81,7 @@ function verify(name, entryIn) {
                 } else {
                     // check the leaving people
                     if (visitor.status === 'in') {
-                        Visitor.findOneAndUpdate({ name }, {
+                        Visitor.findOneAndUpdate({name}, {
                             $set: {
                                 status: 'out',
                                 timeOut: getFormattedDate()
@@ -100,13 +100,13 @@ function verify(name, entryIn) {
                                     details
                                 });
                             }).catch((e) => {
-                                console.log(e);
-                                return reject({
-                                    name,
-                                    eventName: 'auth error',
-                                    msg: 'Some error occured, try again.'
-                                })
+                            console.log(e);
+                            return reject({
+                                name,
+                                eventName: 'auth error',
+                                msg: 'Some error occured, try again.'
                             })
+                        })
                     } else {
                         // already left at time
                         return resolve({
@@ -142,7 +142,7 @@ function verifyQR(code, entryIn) {
         });
     }
     // console.log(name,id);
-    return Visitor.findOne({ name, _id: id })
+    return Visitor.findOne({name, _id: id})
         .then((visitor) => {
             console.log(visitor);
             if (!visitor) {

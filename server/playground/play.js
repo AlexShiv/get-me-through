@@ -6,7 +6,7 @@
 console.log('hii');
 console.log(__dirname);
 var spawn = require('child_process').spawn,
-    py = spawn('python', [String(__dirname) + '/my_script.py'], { stdio: ['pipe', 'pipe', 'pipe', 'ipc'] });
+    py = spawn('python', [String(__dirname) + '/my_script.py'], {stdio: ['pipe', 'pipe', 'pipe', 'ipc']});
 // py    = spawn('python', [String(__dirname) +'/feed_data.py']);
 var stdin = process.openStdin();
 
@@ -14,10 +14,12 @@ function exitHandler(data, signal) {
     // res.sendStatus(200);
     console.log('suc ' + data + ' ' + signal);
 }
+
 function errorHandler(data, signal) {
     // res.sendStatus(418);
     console.log('err ' + data + signal);
 }
+
 py.addListener('close', exitHandler);
 py.addListener('error', errorHandler);
 
