@@ -1,9 +1,11 @@
-import sys, json, numpy as np
-import face_recognition
-import cv2
 # for feeding data
-import glob, os
+import glob
+import os
+import sys
 from pathlib import Path
+
+import cv2
+import face_recognition
 import numpy as np
 
 home = str(os.path.dirname(os.path.abspath(__file__))) + "/../../"
