@@ -1,6 +1,6 @@
 module.exports = function (io) {
     var path = require('path')
-    const { verify, verifyQR } = require(path.join(__dirname, './../auth/auth'));
+    const {verify, verifyQR} = require(path.join(__dirname, './../auth/auth'));
 
     var pid = -1;
     var sendUpdates = false;
@@ -51,10 +51,10 @@ module.exports = function (io) {
                     arr.forEach((name) => {
                         verify(name, entryIn)
                             .then((obj) => {
-                                io.emit(obj.eventName, { name, msg: obj.msg, details: obj.details });
+                                io.emit(obj.eventName, {name, msg: obj.msg, details: obj.details});
                             })
                             .catch((obj) => {
-                                io.emit(obj.eventName, { name, msg: obj.msg });
+                                io.emit(obj.eventName, {name, msg: obj.msg});
                             })
                             .catch((e) => {
                                 console.log('out of the world error');
@@ -81,6 +81,7 @@ module.exports = function (io) {
                     io.emit('stop success');
                 }
             }
+
             /*
             * TODO: check if it collides with socketIO error or not.
             */
@@ -88,6 +89,7 @@ module.exports = function (io) {
                 console.log('run.js -> error code:' + err);
                 io.emit('stop error', "Internal Server Error. Try again if process not stopped.");
             }
+
             py.addListener('close', exitHandler);
             py.addListener('error', errorHandler);
         }
@@ -130,17 +132,16 @@ module.exports = function (io) {
             console.log(opt.client);
             verifyQR(opt.code, entryIn)
                 .then((obj) => {
-                    io.emit(obj.eventName, { name: obj.name, client: opt.client, msg: obj.msg, details: obj.details });
+                    io.emit(obj.eventName, {name: obj.name, client: opt.client, msg: obj.msg, details: obj.details});
                 })
                 .catch((obj) => {
-                    io.emit(obj.eventName, { name: obj.name, msg: obj.msg, client: opt.client });
+                    io.emit(obj.eventName, {name: obj.name, msg: obj.msg, client: opt.client});
                 });
         });
 
         socket.on('mode change', function (val) {
             entryIn = val;
         });
-
 
 
         socket.on('disconnect', function () {

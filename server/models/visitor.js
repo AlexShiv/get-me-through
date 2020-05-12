@@ -1,5 +1,5 @@
 const path = require('path');
-const { mongoose } = require(path.join(__dirname, '/../db/db'));
+const {mongoose} = require(path.join(__dirname, '/../db/db'));
 const validator = require('validator');
 
 function getFormattedDate() {
@@ -37,11 +37,11 @@ let visitorSchema = new mongoose.Schema({
         }
     },
     timeIn: {
-        type:String,
+        type: String,
         default: getFormattedDate()
     },
     timeOut: {
-        type:String,
+        type: String,
         default: getFormattedDate()
     },
     allow: {
@@ -55,4 +55,4 @@ let visitorSchema = new mongoose.Schema({
 
 let Visitor = mongoose.model('Visitor', visitorSchema);
 
-module.exports = { Visitor };
+module.exports = {Visitor};

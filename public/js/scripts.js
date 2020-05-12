@@ -10,10 +10,10 @@ $(document).ready(
         var QRClient = null;
         var entryIn = true; // true(check arriving people), false(check leaving people)
 
-        $('input[name="group1"]').change(function() {
+        $('input[name="group1"]').change(function () {
             var prev = 'in';
-            if(!entryIn) prev = 'out';
-            if(this.id !== prev) {
+            if (!entryIn) prev = 'out';
+            if (this.id !== prev) {
                 prev = this.id;
                 entryIn = !entryIn;
                 socket.emit('mode change', entryIn);
@@ -36,12 +36,13 @@ $(document).ready(
             scanPeriod: 1
         }
         // Initialise the scanner
-        let scanner = new Instascan.Scanner({ video: document.getElementById('preview') });
+        let scanner = new Instascan.Scanner({video: document.getElementById('preview')});
 
         // callback function after QR Code decoded
         var readQRCallback = function (content) {
             // send request for auth using qr code
-            socket.emit('qr auth', {code: content,
+            socket.emit('qr auth', {
+                code: content,
                 client: $(QRClient[0]).attr("data-person-head")
             });
             var $toastContent = $('<span><i class="material-icons">done</i>QR Code decoded!</span>');
@@ -80,7 +81,8 @@ $(document).ready(
                     }
                 });
         }
-        /* 
+
+        /*
         * END of QR Code scanning utility
         */
 
@@ -145,23 +147,23 @@ $(document).ready(
                 })
         });
 
-        $('#clear-button').on('click', function() {
+        $('#clear-button').on('click', function () {
             $(this).addClass('disabled');
             $.ajax({
-                url:'http://localhost:3000/train/clear'
+                url: 'http://localhost:3000/train/clear'
             })
-            .done(function(data) {
-                var $toastContent = $('<span><i class="material-icons">done</i>Data cleared successfully!</span>');
-                Materialize.toast($toastContent, 5000);
-                $('#clear-button').removeClass('disabled');
-                // console.log(data);
-            })
-            .fail(function(data) {
-                // console.log(data);
-                var $toastContent = $('<span><i class="material-icons">report_problem</i>'+data.responseText+'</span>');
-                Materialize.toast($toastContent, 5000);
-                $('#clear-button').removeClass('disabled');
-            });
+                .done(function (data) {
+                    var $toastContent = $('<span><i class="material-icons">done</i>Data cleared successfully!</span>');
+                    Materialize.toast($toastContent, 5000);
+                    $('#clear-button').removeClass('disabled');
+                    // console.log(data);
+                })
+                .fail(function (data) {
+                    // console.log(data);
+                    var $toastContent = $('<span><i class="material-icons">report_problem</i>' + data.responseText + '</span>');
+                    Materialize.toast($toastContent, 5000);
+                    $('#clear-button').removeClass('disabled');
+                });
         });
 
         // Send request to run the face-recognition program
@@ -215,7 +217,7 @@ $(document).ready(
             if ($(e.target).hasClass('fa-qrcode')) {
                 $('#modal1').modal('open');
                 QRClient = $(e.target).parent().parent();
-                readQR();  
+                readQR();
             }
         });
 
@@ -295,7 +297,10 @@ $(document).ready(
         /*
             If the FACE authentication process completed successfully
         */
-        socket.on('auth success', function(obj) {
+        console.log("Log before auth")
+        socket.on('auth success', function (obj) {
+            console.log("Log in auth")
+
             var template = $('#person-details-template').html();
             var departureTime = 'Nil';
             if (obj.details.status === 'out') {
@@ -310,6 +315,7 @@ $(document).ready(
                 timeOut: departureTime,
                 allow: obj.details.allow
             });
+            console.log(html)
             var alias = obj.name.split(' ').join('-');
             var str = `[data-person=${alias}]`
             $(str).empty();
@@ -321,9 +327,9 @@ $(document).ready(
         /*
             If the FACE authentication process has an error/unknown visitor
         */
-        socket.on('auth error', function(obj) {
+        socket.on('auth error', function (obj) {
             var template = $('#person-msg-template').html();
-            var html = Mustache.render(template,{msg: obj.msg});
+            var html = Mustache.render(template, {msg: obj.msg});
             var alias = obj.name.split(' ').join('-');
             var str = `[data-person=${alias}]`
             $(str).empty();
@@ -335,7 +341,7 @@ $(document).ready(
         /*
             If the QR Code authentication process completed successfully
         */
-        socket.on('qr auth success', function(obj) {
+        socket.on('qr auth success', function (obj) {
             console.log(' qr suc');
             var template = $('#person-details-template').html();
             var departureTime = 'Nil';
@@ -360,10 +366,10 @@ $(document).ready(
         /*
             If the QR Code authentication process has an error/unknown visitor
         */
-        socket.on('qr auth error', function(obj) {
+        socket.on('qr auth error', function (obj) {
             console.log('qr fail');
             var template = $('#person-msg-template').html();
-            var html = Mustache.render(template,{msg: obj.msg});
+            var html = Mustache.render(template, {msg: obj.msg});
             $(`[data-person="${obj.client}"]`).empty();
             $(`[data-person="${obj.client}"]`).next().append(html);
             // color

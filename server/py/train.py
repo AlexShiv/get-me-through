@@ -1,7 +1,9 @@
-import glob,os
+import glob
+import os
 from pathlib import Path
-import numpy as np
+
 import face_recognition
+import numpy as np
 
 home = str(os.path.dirname(os.path.abspath(__file__))) + "/../../"
 print(home)
@@ -20,7 +22,7 @@ else:
 # #For Storing the name corresponding to the encoding
 people_file = Path(people_file_path)
 if people_file.is_file():
-    people = np.genfromtxt(people_file, dtype='U',delimiter=',')
+    people = np.genfromtxt(people_file, dtype='U', delimiter=',')
 else:
     people = []
 
@@ -48,20 +50,20 @@ for file_name in file_names:
 known_encodings_save = np.array(known_encodings_new)
 people_save = np.array(people_new)
 
-#Print the new people added for debugging( CAUTION: Disable for large cases)
+# Print the new people added for debugging( CAUTION: Disable for large cases)
 # print("people = {} and {}".format(people_save, type(people_save)))
 
 
 # Save the face_encodings
 if known_encodings_file.is_file():
     with open(known_encodings_file, 'ab') as f:
-        np.savetxt(f,known_encodings_save,delimiter=',')
+        np.savetxt(f, known_encodings_save, delimiter=',')
 else:
-    np.savetxt(known_encodings_file_path,known_encodings_save,delimiter=',' )
+    np.savetxt(known_encodings_file_path, known_encodings_save, delimiter=',')
 
 # Save the people names
 if people_file.is_file():
     with open(people_file, 'ab') as f:
-        np.savetxt(f,people_save,delimiter=',', fmt="%s")
+        np.savetxt(f, people_save, delimiter=',', fmt="%s")
 else:
     np.savetxt(people_file_path, people_save, delimiter=',', fmt="%s")
