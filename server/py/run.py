@@ -95,14 +95,15 @@ def main():
         small_frame = cv2.resize(frame, (0, 0), fx=.25, fy=.25)
 
         if process_this_frame:
-            # Find the face locations
+            # Найти лица
             face_locations = face_recognition.face_locations(small_frame)
-            # Find the face encodings 128 Dimensional!!
+            # Превратить лица в 128 размерные массивы
             face_encodings = face_recognition.face_encodings(small_frame, face_locations)
 
             face_names = []
             other = 0  # Count of un-authorised people
             for face_encoding in face_encodings:
+                # сравнивает список кодировок лица и кодировку лица кондидата
                 match = face_recognition.compare_faces(known_encodings, face_encoding)
                 name = "Unknown"
 

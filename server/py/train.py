@@ -37,7 +37,9 @@ for file_name in file_names:
         # print("found {}".format(person_name))
         continue
     # print("Image name is {}".format(image_file_name.split('.')[0]))
+    # Загружает изобраение в numpy
     image_name = face_recognition.load_image_file(file_name)
+    # Возвращаяет 128 размерную кодировку на каждое найденное лицо
     image_face_encoding = face_recognition.face_encodings(image_name)
     if len(image_face_encoding) == 1:
         face_encoding = image_face_encoding[0]
